@@ -21,6 +21,7 @@ public class MarksService {
         marksRepository.findAll().forEach(marks::add);
         return marks;
     }
+
     public Mark getMark(Long id) {
         return marksRepository.findById(id).get();
     }
