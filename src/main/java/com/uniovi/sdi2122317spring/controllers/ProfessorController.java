@@ -44,10 +44,5 @@ public class ProfessorController {
         professorService.addProfessor(professor);
         return "Ok";
     }
-    @RequestMapping(value = "/professor/edit/{id}")
-    public String getEdit(Model model, @PathVariable Long id) {
-        model.addAttribute("mark", professorService.getProfessor(id));
-        return "Ok";
-    }
 
 }
