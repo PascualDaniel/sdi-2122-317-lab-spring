@@ -60,4 +60,6 @@ public class Mark {
     public void setUser(User user) {
         this.user = user;
     }
+
+
 }
