@@ -38,4 +38,17 @@ public class UsersService {
     public void deleteUser(Long id) {
         usersRepository.deleteById(id);
     }
+
+   /* public void editUser(User user){
+        if(usersRepository.findById(user.getId()).isPresent()){
+            User user2 = usersRepository.findById(user.getId()).get();
+            user2.setMarks(user.getMarks());
+            user2.setDni(user.getDni());
+            user2.setRole(user.getRole());
+            user2.setName(user.getName());
+            user2.setLastName(user.getLastName());
+
+        }
+
+    }*/
 }

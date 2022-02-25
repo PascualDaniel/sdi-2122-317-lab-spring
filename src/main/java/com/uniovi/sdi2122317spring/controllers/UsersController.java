@@ -52,17 +52,32 @@ public class UsersController {
         usersService.deleteUser(id);
         return "redirect:/user/list";
     }
+
+
+
     @RequestMapping(value = "/user/edit/{id}")
     public String getEdit(Model model, @PathVariable Long id) {
-        User user = usersService.getUser(id);
-        model.addAttribute("user", user);
+
+        model.addAttribute("user", usersService.getUser(id));
+        //model.addAttribute("marks", usersService.ge);
         return "user/edit";
     }
     @RequestMapping(value = "/user/edit/{id}", method = RequestMethod.POST)
-    public String setEdit(Model model, @PathVariable Long id, @ModelAttribute User user) {
-        usersService.addUser(user);
+    public String setEdit( @PathVariable Long id, @ModelAttribute User user) {
+        User originalUser = usersService.getUser(id);
+        //originalUser.setMarks(user.getMarks());
+        originalUser.setPassword(originalUser.getPassword());
+        originalUser.setPasswordConfirm(originalUser.getPasswordConfirm());
+        originalUser.setDni(user.getDni());
+        originalUser.setName(user.getName());
+        originalUser.setLastName(user.getLastName());
+        usersService.addUser(originalUser);
         return "redirect:/user/details/" + id;
     }
+
+
+
+
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public String signup(Model model) {
         model.addAttribute("user", new User());
