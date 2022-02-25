@@ -19,11 +19,15 @@ public class ProfessorController {
         return professorService.getProfessors().toString();
 
     }
-
+    @RequestMapping(value = "/professor/add")
+    public String getProfessor(Model model) {
+        model.addAttribute("proffesorsList", professorService.getProfessors());
+        return "professor/add";
+    }
     @RequestMapping(value = "/professor/add", method = RequestMethod.POST)
     public String setProfessor(@ModelAttribute Professor p) {
         professorService.addProfessor(p);
-        return "Ok";
+        return "redirect:/professor/list";
     }
 
     @RequestMapping("/professor/details/{id}")
