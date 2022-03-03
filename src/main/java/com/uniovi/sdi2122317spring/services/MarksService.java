@@ -1,6 +1,7 @@
 package com.uniovi.sdi2122317spring.services;
 
 import com.uniovi.sdi2122317spring.entities.Mark;
+import com.uniovi.sdi2122317spring.entities.User;
 import com.uniovi.sdi2122317spring.repositories.MarksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,4 +56,12 @@ public class MarksService {
         marksRepository.deleteById(id);
     }
 
+    public List<Mark> getMarksForUser(User user) {
+        List<Mark> marks = new ArrayList<Mark>();
+        if (user.getRole().equals("ROLE_STUDENT")) {
+            marks = marksRepository.findAllByUser(user);}
+        if (user.getRole().equals("ROLE_PROFESSOR")) {
+            marks = getMarks(); }
+        return marks;
+    }
 }

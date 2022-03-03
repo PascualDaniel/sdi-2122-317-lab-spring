@@ -1,6 +1,7 @@
 package com.uniovi.sdi2122317spring.controllers;
 
 import com.uniovi.sdi2122317spring.entities.Mark;
+import com.uniovi.sdi2122317spring.entities.User;
 import com.uniovi.sdi2122317spring.services.MarksService;
 import com.uniovi.sdi2122317spring.services.UsersService;
 import com.uniovi.sdi2122317spring.validators.AddMarkValidator;
@@ -11,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,22 +29,23 @@ public class MarksController {
     private HttpSession httpSession;
 
     @RequestMapping("/mark/list/update")
-    public String updateList(Model model){
-        model.addAttribute("markList", marksService.getMarks() );
+    public String updateList(Model model, Principal principal) {
+        String dni = principal.getName(); // DNI es el name de la autenticación
+        User user = usersService.getUserByDni(dni);
+        model.addAttribute("markList", marksService.getMarksForUser(user));
         return "mark/list :: tableMarks";
     }
 
 
+
     @RequestMapping("/mark/list")
-    public String getList(Model model) {
-        Set<Mark> consultedList= (Set<Mark>) httpSession.getAttribute("consultedList");
-        if ( consultedList == null ) {
-            consultedList = new HashSet<Mark>();
-        }
-        model.addAttribute("consultedList", consultedList);
-        model.addAttribute("markList", marksService.getMarks());
+    public String getList(Model model, Principal principal){
+        String dni = principal.getName(); // DNI es el name de la autenticación
+        User user = usersService.getUserByDni(dni);
+        model.addAttribute("markList", marksService.getMarksForUser(user) );
         return "mark/list";
     }
+
 
     @RequestMapping(value = "/mark/add", method = RequestMethod.POST)
     public String setMark(@ModelAttribute Mark mark, BindingResult result) {
