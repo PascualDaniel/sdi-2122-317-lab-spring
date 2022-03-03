@@ -37,7 +37,9 @@ public class MarksService {
         httpSession.setAttribute("consultedList", consultedList);
         return obtainedMark;
     }
-
+    public void setMarkResend(boolean revised, Long id) {
+        marksRepository.updateResend(revised, id);
+    }
     public List<Mark> getMarks() {
         List<Mark> marks = new ArrayList<Mark>();
         marksRepository.findAll().forEach(marks::add);

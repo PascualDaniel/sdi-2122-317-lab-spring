@@ -35,11 +35,11 @@ public class MarksController {
 
     @RequestMapping("/mark/list")
     public String getList(Model model) {
-  //      Set<Mark> consultedList= (Set<Mark>) httpSession.getAttribute("consultedList");
-  //      if ( consultedList == null ) {
-  //          consultedList = new HashSet<Mark>();
- //       }
-//        model.addAttribute("consultedList", consultedList);
+        Set<Mark> consultedList= (Set<Mark>) httpSession.getAttribute("consultedList");
+        if ( consultedList == null ) {
+            consultedList = new HashSet<Mark>();
+        }
+        model.addAttribute("consultedList", consultedList);
         model.addAttribute("markList", marksService.getMarks());
         return "mark/list";
     }
@@ -92,4 +92,15 @@ public class MarksController {
         model.addAttribute("usersList", usersService.getUsers());
         return "mark/edit";
     }
+    @RequestMapping(value = "/mark/{id}/resend", method = RequestMethod.GET)
+    public String setResendTrue(Model model, @PathVariable Long id) {
+        marksService.setMarkResend(true, id);
+        return "redirect:/mark/list";
+    }
+    @RequestMapping(value = "/mark/{id}/noresend", method = RequestMethod.GET)
+    public String setResendFalse(Model model, @PathVariable Long id) {
+        marksService.setMarkResend(false, id);
+        return "redirect:/mark/list";
+    }
+
 }
